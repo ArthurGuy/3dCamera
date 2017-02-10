@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "raspicam": "^0.2.13"
+    "raspicam": "^0.2.13",
+    "socket.io": "^1.7.1"
   }
 }
