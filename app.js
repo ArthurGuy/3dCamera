@@ -1,6 +1,6 @@
 var RaspiCam = require("raspicam");
 
-var camera = new RaspiCam({ mode: 'photo'});
+var camera = new RaspiCam({ mode: 'photo', output: '/home/pi/3dCamera/output.jpg'});
 
 var socket = require('socket.io/node_modules/socket.io-client')('http://display.arthurguy.co.uk:3000');
 
@@ -22,5 +22,5 @@ socket.on('connect', function(){
   
 socket.on('client-count', function(data){
     console.log("Taking a photo");
-    camera.start({timeout: 0, output: '/home/pi/3dCamera/output.jpg' });
+    camera.start({timeout: 0, output: '/home/pi/3dCamera/output1.jpg' });
 });
