@@ -4,7 +4,7 @@ var camera = new RaspiCam({ mode: 'photo', output: '/home/pi/3dCamera/output.jpg
 
 var socket = require('socket.io/node_modules/socket.io-client')('http://display.arthurguy.co.uk:3000');
 
-
+var fs = require('fs')
 
 
 camera.on("started", function(){ 
@@ -26,6 +26,15 @@ socket.on('client-count', function(data){
 camera.on("read", function(err, timestamp, filename){
     console.log("new file available", timestamp, filename);
     camera.stop();
+    
+    fs.readFile('/etc/hosts', 'utf8', function (err,data) {
+        if (err) {
+            return console.log(err);
+        }
+        console.log(data);
+        socket.emit('new-photo', {data:data});
+    });
+ 
 });
 
 
