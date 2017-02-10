@@ -27,7 +27,7 @@ camera.on("read", function(err, timestamp, filename){
     console.log("new file available", timestamp, filename);
     camera.stop();
     
-    fs.readFile('/etc/hosts', 'utf8', function (err,data) {
+    fs.readFile(__dirname + '/' + filename, 'utf8', function (err,data) {
         if (err) {
             return console.log(err);
         }
