@@ -1,7 +1,6 @@
 var RaspiCam = require("raspicam");
 
-var camera = new RaspiCam({ mode: 'photo', output: '/home/pi/3dCamera/images/%d' });
+var camera = new RaspiCam({ mode: 'photo', output: '/home/pi/3dCamera/images/%d.jpg' });
 
-camera.start();
+camera.start({timeout: 0});
 
-camera.stop();
