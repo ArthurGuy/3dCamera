@@ -26,8 +26,8 @@ socket.on('take-photo', function(data){
 camera.on("read", function(err, timestamp, filename){
     console.log("new file available", timestamp, filename);
     camera.stop();
-    
-    fs.readFile(__dirname + '/' + filename, 'utf8', function (err,data) {
+    var filePath = path.join(__dirname, filename);
+    fs.readFile(filePath, function (err, data) {
         if (err) {
             return console.log(err);
         }
