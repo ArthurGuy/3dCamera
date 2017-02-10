@@ -12,7 +12,7 @@ camera.on("started", function(){
 
 //listen for the "read" event triggered when each new photo/video is saved
 camera.on("read", function(err, timestamp, filename){
-    console.log("read");
+    console.log("new file available", timestamp, filename);
     camera.stop();
 });
 
@@ -22,5 +22,6 @@ socket.on('connect', function(){
   
 socket.on('client-count', function(data){
     console.log("Taking a photo");
-    camera.start({timeout: 0, output: '/home/pi/3dCamera/output1.jpg' });
+    camera.set('output', '/home/pi/3dCamera/output1.jpg');
+    camera.start({timeout: 0 });
 });
