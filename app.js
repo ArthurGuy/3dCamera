@@ -21,5 +21,6 @@ socket.on('connect', function(){
 });
   
 socket.on('client-count', function(data){
+    console.log("Taking a photo");
     camera.start({timeout: 0});
 });
