@@ -13,7 +13,7 @@ camera.on("started", function(){
 
 
 
-socket.on('client-count', function(data){
+socket.on('take-photo', function(data){
     console.log("Taking a photo");
     //var photoId = guid();
     //camera.set('output', '/home/pi/3dCamera/images/' + photoId + '.jpg');
