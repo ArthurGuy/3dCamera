@@ -27,6 +27,11 @@ camera.on("read", function(err, timestamp, filename){
     console.log("new file available", timestamp, filename);
     camera.stop();
     var filePath = __dirname + '/output.jpg';
+    
+    //var imageData = fs.readFileSync(filePath,'utf8');
+    //console.log(imageData.toString('base64'));
+    //socket.emit('new-photo', {data:imageData.toString('base64')});
+    
     fs.readFile(filePath, function (err, data) {
         if (err) {
             return console.log(err);
