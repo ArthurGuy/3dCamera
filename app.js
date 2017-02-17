@@ -35,6 +35,8 @@ socket.on('take-photo', function(data){
     //    console.log(photo);
     //});
     
+    takeImage();
+    
 });
 
 /*
