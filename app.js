@@ -5,6 +5,8 @@
 //const Raspistill = require('node-raspistill').Raspistill;
 //const camera = new Raspistill();
 
+var path = require('path');
+
 var socket = require('socket.io/node_modules/socket.io-client')('http://192.168.2.27:3000/');
 
 var fs = require('fs');
