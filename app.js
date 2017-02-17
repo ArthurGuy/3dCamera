@@ -80,8 +80,10 @@ function getAbsoluteImagePath() {
 
 function sendImage() {
     fs.readFile(getAbsoluteImagePath(), function(err, buffer){
+        console.log(err);
+        console.log(buffer);
         //io.sockets.emit('live-stream', buffer.toString('base64'));
-        socket.emit('new-photo', {data:buffer.toString('base64'), takeId:takeId, startTime:lastReceiveTime, time:Date.now()});
+        socket.emit('new-photo', {data: buffer.toString('base64'), takeId:takeId, startTime:lastReceiveTime, time:Date.now()});
     });
 }
 
