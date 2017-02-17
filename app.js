@@ -31,9 +31,9 @@ socket.on('take-photo', function(data){
     //camera.set('output', '/home/pi/3dCamera/images/' + photoId + '.jpg');
     //camera.start({timeout: 0 });
     
-    camera.takePhoto().then(function(photo) {
-        console.log(photo);
-    });
+    //camera.takePhoto().then(function(photo) {
+    //    console.log(photo);
+    //});
     
 });
 
