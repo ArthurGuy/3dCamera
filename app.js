@@ -4,7 +4,10 @@ var camera = new RaspiCam({ mode: 'photo', output: '/home/pi/3dCamera/output.jpg
 
 var socket = require('socket.io/node_modules/socket.io-client')('http://192.168.2.38:3000/');
 
-var fs = require('fs')
+var fs = require('fs');
+
+var lastReceiveTime;
+var takeId;
 
 
 camera.on("started", function(){ 
@@ -12,9 +15,12 @@ camera.on("started", function(){
 });
 
 
-
 socket.on('take-photo', function(data){
     console.log("Taking a photo");
+    
+    lastReceiveTime = data.time
+    takeId          = data.takeId;
+    
     //var photoId = guid();
     //camera.set('output', '/home/pi/3dCamera/images/' + photoId + '.jpg');
     camera.start({timeout: 0 });
@@ -37,7 +43,7 @@ camera.on("read", function(err, timestamp, filename){
             return console.log(err);
         }
         console.log(data.toString('base64'));
-        socket.emit('new-photo', {data:data.toString('base64')});
+        socket.emit('new-photo', {data:data.toString('base64'), takeId:takeId, startTime:lastReceiveTime, time:Date.now()});
     });
  
 });
