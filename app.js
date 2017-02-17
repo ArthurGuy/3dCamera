@@ -92,8 +92,8 @@ function takeImage() {
         '-t', 100,  // how long should taking the picture take?
         '-o', getAbsoluteImagePath()   // path + name
     ];
-    process = spawn('raspistill', args);
-    process.on('exit', sendImage);
+    var imageProcess = spawn('raspistill', args);
+    imageProcess.on('exit', sendImage);
 }
   
 function guid() {
