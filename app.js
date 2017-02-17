@@ -1,6 +1,9 @@
 var RaspiCam = require("raspicam");
 
-var camera = new RaspiCam({ mode: 'photo', output: '/home/pi/3dCamera/output.jpg'});
+//var camera = new RaspiCam({ mode: 'photo', output: '/home/pi/3dCamera/output.jpg'});
+
+const Raspistill = require('node-raspistill').Raspistill;
+const camera = new Raspistill();
 
 var socket = require('socket.io/node_modules/socket.io-client')('http://192.168.2.27:3000/');
 
@@ -10,9 +13,9 @@ var lastReceiveTime;
 var takeId;
 
 
-camera.on("started", function(){ 
-    console.log("started")
-});
+//camera.on("started", function(){ 
+//    console.log("started")
+//});
 
 
 socket.on('take-photo', function(data){
@@ -23,10 +26,15 @@ socket.on('take-photo', function(data){
     
     //var photoId = guid();
     //camera.set('output', '/home/pi/3dCamera/images/' + photoId + '.jpg');
-    camera.start({timeout: 0 });
+    //camera.start({timeout: 0 });
+    
+    camera.takePhoto().then(function(photo) {
+        console.log(photo);
+    });
+    
 });
 
-
+/*
 
 //listen for the "read" event triggered when each new photo/video is saved
 camera.on("read", function(err, timestamp, filename){
@@ -51,7 +59,7 @@ camera.on("read", function(err, timestamp, filename){
     });
  
 });
-
+*/
 
 
 socket.on('connect', function(){
