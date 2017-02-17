@@ -89,9 +89,9 @@ function sendImage() {
 
 function takeImage() {
     var args = [
-        //'-w', config['image-width'],   // width
-        //'-h', config['image-height'],  // height
-        '-t', 100,  // how long should taking the picture take?
+        //'-w', 640,   // width
+        //'-h', 480,  // height
+        //'-t', 100,  // how long should taking the picture take?
         '-o', getAbsoluteImagePath()   // path + name
     ];
     var imageProcess = spawn('raspistill', args);
