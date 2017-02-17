@@ -2,7 +2,7 @@ var RaspiCam = require("raspicam");
 
 var camera = new RaspiCam({ mode: 'photo', output: '/home/pi/3dCamera/output.jpg'});
 
-var socket = require('socket.io/node_modules/socket.io-client')('http://192.168.2.38:3000/');
+var socket = require('socket.io/node_modules/socket.io-client')('http://192.168.2.27:3000/');
 
 var fs = require('fs');
 
