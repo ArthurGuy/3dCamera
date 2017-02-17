@@ -42,7 +42,7 @@ camera.on("read", function(err, timestamp, filename){
         if (err) {
             return console.log(err);
         }
-        console.log(data.toString('base64'));
+        //console.log(data.toString('base64'));
         socket.emit('new-photo', {data:data.toString('base64'), takeId:takeId, startTime:lastReceiveTime, time:Date.now()});
         
         fs.unlink(filePath);
