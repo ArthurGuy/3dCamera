@@ -43,8 +43,10 @@ camera.on("read", function(err, timestamp, filename){
             return console.log(err);
         }
         //console.log(data.toString('base64'));
+        console.log("Sending photo");
         socket.emit('new-photo', {data:data.toString('base64'), takeId:takeId, startTime:lastReceiveTime, time:Date.now()});
         
+        console.log("Deleting photo");
         fs.unlink(filePath);
     });
  
