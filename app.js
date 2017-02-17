@@ -15,7 +15,7 @@ var fs = require('fs');
 var lastReceiveTime;
 var takeId;
 
-var imagePath = '/home/pi/3dCamera/';
+var imagePath = '/';
 var imageName = 'output.jpg';
 
 
