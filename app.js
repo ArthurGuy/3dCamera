@@ -1,9 +1,9 @@
-var RaspiCam = require("raspicam");
+//var RaspiCam = require("raspicam");
 
 //var camera = new RaspiCam({ mode: 'photo', output: '/home/pi/3dCamera/output.jpg'});
 
-const Raspistill = require('node-raspistill').Raspistill;
-const camera = new Raspistill();
+//const Raspistill = require('node-raspistill').Raspistill;
+//const camera = new Raspistill();
 
 var socket = require('socket.io/node_modules/socket.io-client')('http://192.168.2.27:3000/');
 
@@ -11,6 +11,9 @@ var fs = require('fs');
 
 var lastReceiveTime;
 var takeId;
+
+var imagePath = '/home/pi/3dCamera/';
+var imageName = 'output.jpg';
 
 
 //camera.on("started", function(){ 
@@ -65,6 +68,28 @@ camera.on("read", function(err, timestamp, filename){
 socket.on('connect', function(){
     console.log('A socket connection was made');
 });
+
+function getAbsoluteImagePath() {
+    return path.join(__dirname, imagePath, imageName);
+}
+
+function sendImage() {
+    fs.readFile(getAbsoluteImagePath(), function(err, buffer){
+        //io.sockets.emit('live-stream', buffer.toString('base64'));
+        socket.emit('new-photo', {data:buffer.toString('base64'), takeId:takeId, startTime:lastReceiveTime, time:Date.now()});
+    });
+}
+
+function takeImage() {
+    var args = [
+        //'-w', config['image-width'],   // width
+        //'-h', config['image-height'],  // height
+        '-t', 100,  // how long should taking the picture take?
+        '-o', getAbsoluteImagePath()   // path + name
+    ];
+    process = spawn('raspistill', args);
+    process.on('exit', sendImage);
+}
   
 function guid() {
   function s4() {
