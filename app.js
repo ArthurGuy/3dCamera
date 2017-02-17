@@ -44,6 +44,8 @@ camera.on("read", function(err, timestamp, filename){
         }
         console.log(data.toString('base64'));
         socket.emit('new-photo', {data:data.toString('base64'), takeId:takeId, startTime:lastReceiveTime, time:Date.now()});
+        
+        fs.unlink(filePath);
     });
  
 });
