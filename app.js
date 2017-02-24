@@ -1,8 +1,17 @@
 
+var args = process.argv.slice(2);
+
+var socketServer;
+if (typeof args[0] != 'undefined') {
+    socketServer = 'http://' + args[0];
+} else {
+    socketServer = 'http://192.168.2.27:3000/';
+}
+
 var spawn = require('child_process').spawn;
 var path = require('path');
 
-var socket = require('socket.io/node_modules/socket.io-client')('http://192.168.2.27:3000/');
+var socket = require('socket.io/node_modules/socket.io-client')(socketServer);
 
 var fs = require('fs');
 
