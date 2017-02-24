@@ -15,6 +15,9 @@ var socket = require('socket.io/node_modules/socket.io-client')(socketServer);
 
 var fs = require('fs');
 
+var os = require('os');
+var ifaces = os.networkInterfaces();
+
 // Random name generator
 var marvel = require('marvel-characters')
 
@@ -25,6 +28,8 @@ var imagePath = '/';
 var imageName = 'output.jpg';
 
 var cameraName = marvel();
+
+var ipAddress = null;
 
 
 socket.on('take-photo', function(data){
@@ -68,7 +73,20 @@ camera.on("read", function(err, timestamp, filename){
 socket.on('connect', function(){
     console.log('A socket connection was made');
     
-    socket.emit('camera-online', {name: cameraName});
+    // Lookup our IP address
+    Object.keys(ifaces).forEach(function (ifname) {
+      var alias = 0;
+
+      ifaces[ifname].forEach(function (iface) {
+        if ('IPv4' !== iface.family || iface.internal !== false) {
+          // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+          return;
+        }
+        ipAddress = iface.address;
+      });
+    });
+    
+    socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress});
 });
 
 function getAbsoluteImagePath() {
