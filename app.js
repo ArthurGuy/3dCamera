@@ -22,6 +22,7 @@ var ifaces = os.networkInterfaces();
 var marvel = require('marvel-characters')
 
 var lastReceiveTime;
+var photoStartTime;
 var takeId;
 
 var imagePath = '/';
@@ -35,6 +36,7 @@ var ipAddress = null;
 socket.on('take-photo', function(data){
     console.log("Taking a photo");
     
+    photoStartTime  = Date.now();
     lastReceiveTime = data.time
     takeId          = data.takeId;
     
@@ -103,7 +105,17 @@ function sendImage() {
         //console.log(err);
         //console.log(buffer);
         //io.sockets.emit('live-stream', buffer.toString('base64'));
-        socket.emit('new-photo', {data: buffer.toString('base64'), takeId:takeId, startTime:lastReceiveTime, time:Date.now()});
+        int totalDelay = Date.now() - lastReceiveTime;
+        int imageDelay = Date.now() - photoStartTime;
+        socket.emit('new-photo', {
+            data: buffer.toString('base64'), 
+            takeId:takeId, 
+            startTime:lastReceiveTime, 
+            time:Date.now(), 
+            photoStartTime:photoStartTime,
+            totalDelay: totalDelay,
+            imageDelay: imageDelay
+        });
     });
 }
 
