@@ -1,4 +1,6 @@
 {
+  "name": "3D Camera",
+  "private": true,
   "dependencies": {
     "raspicam": "^0.2.13",
     "socket.io": "^1.7.1",
