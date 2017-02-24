@@ -15,11 +15,16 @@ var socket = require('socket.io/node_modules/socket.io-client')(socketServer);
 
 var fs = require('fs');
 
+// Random name generator
+var marvel = require('marvel-characters')
+
 var lastReceiveTime;
 var takeId;
 
 var imagePath = '/';
 var imageName = 'output.jpg';
+
+var cameraName = marvel();
 
 
 socket.on('take-photo', function(data){
@@ -62,6 +67,8 @@ camera.on("read", function(err, timestamp, filename){
 
 socket.on('connect', function(){
     console.log('A socket connection was made');
+    
+    socket.emit('camera-online', {name: cameraName});
 });
 
 function getAbsoluteImagePath() {
