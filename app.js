@@ -1,9 +1,3 @@
-//var RaspiCam = require("raspicam");
-
-//var camera = new RaspiCam({ mode: 'photo', output: '/home/pi/3dCamera/output.jpg'});
-
-//const Raspistill = require('node-raspistill').Raspistill;
-//const camera = new Raspistill();
 
 var spawn = require('child_process').spawn;
 var path = require('path');
@@ -19,24 +13,11 @@ var imagePath = '/';
 var imageName = 'output.jpg';
 
 
-//camera.on("started", function(){ 
-//    console.log("started")
-//});
-
-
 socket.on('take-photo', function(data){
     console.log("Taking a photo");
     
     lastReceiveTime = data.time
     takeId          = data.takeId;
-    
-    //var photoId = guid();
-    //camera.set('output', '/home/pi/3dCamera/images/' + photoId + '.jpg');
-    //camera.start({timeout: 0 });
-    
-    //camera.takePhoto().then(function(photo) {
-    //    console.log(photo);
-    //});
     
     takeImage();
     
