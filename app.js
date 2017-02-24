@@ -70,6 +70,11 @@ function getAbsoluteImagePath() {
 
 function sendImage() {
     fs.readFile(getAbsoluteImagePath(), function(err, buffer){
+        
+        if (typeof buffer == 'undefined') {
+            socket.emit('photo-error', {takeId:takeId});
+            return;
+        }
         //console.log(err);
         //console.log(buffer);
         //io.sockets.emit('live-stream', buffer.toString('base64'));
