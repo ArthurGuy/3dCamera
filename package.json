@@ -1,5 +1,5 @@
 {
-  "name": "3D Camera",
+  "name": "3DCamera",
   "private": true,
   "dependencies": {
     "socket.io": "^1.7.1"
