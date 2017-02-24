@@ -2,6 +2,7 @@
   "name": "3DCamera",
   "private": true,
   "dependencies": {
-    "socket.io": "^1.7.1"
+    "socket.io": "^1.7.1",
+    "marvel-characters": "^1.0.3"
   }
 }
