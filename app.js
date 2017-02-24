@@ -121,8 +121,8 @@ function sendImage() {
 
 function takeImage() {
     var args = [
-        //'-w', 640,   // width
-        //'-h', 480,  // height
+        '-w', 2592,   // width
+        '-h', 1944,  // height
         //'-t', 100,  // how long should taking the picture take?
         '-q', 75,     // quality
         '-o', getAbsoluteImagePath()   // path + name
