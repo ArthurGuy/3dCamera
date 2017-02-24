@@ -105,8 +105,8 @@ function sendImage() {
         //console.log(err);
         //console.log(buffer);
         //io.sockets.emit('live-stream', buffer.toString('base64'));
-        int totalDelay = Date.now() - lastReceiveTime;
-        int imageDelay = Date.now() - photoStartTime;
+        var totalDelay = Date.now() - lastReceiveTime;
+        var imageDelay = Date.now() - photoStartTime;
         socket.emit('new-photo', {
             data: buffer.toString('base64'), 
             takeId:takeId, 
