@@ -84,7 +84,15 @@ socket.on('connect', function(){
     });
     
     socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress});
+    
+    // Setup a regular heartbeat interval
+    var heartbeatIntervalID = window.setInterval(heartbeat, 1000);
+
 });
+
+function heartbeat() {
+    socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress});
+}
 
 function getAbsoluteImagePath() {
     return path.join(__dirname, imagePath, imageName);
