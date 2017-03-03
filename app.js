@@ -1,12 +1,7 @@
 
 var args = process.argv.slice(2);
 
-var socketServer;
-if (typeof args[0] != 'undefined') {
-    socketServer = 'http://' + args[0];
-} else {
-    socketServer = 'http://192.168.2.27:3000/';
-}
+var socketServer = 'http://192.168.0.100:3000/';
 
 var spawn = require('child_process').spawn;
 var path = require('path');
