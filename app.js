@@ -71,7 +71,14 @@ function getAbsoluteImagePath() {
     return path.join(__dirname, imagePath, imageName);
 }
 
-function sendImage() {
+function sendImage(code) {
+    
+    // A success should come back with exit code 0
+    if (code !== 0) {
+        socket.emit('photo-error', {takeId:takeId});
+        return;
+    }
+    
     fs.readFile(getAbsoluteImagePath(), function(err, buffer){
         
         if (typeof buffer == 'undefined') {
