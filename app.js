@@ -1,5 +1,5 @@
 
-var version = '1.1';
+var version = '1.2';
 
 
 var args = process.argv.slice(2);
@@ -145,6 +145,7 @@ function updateSoftware() {
         if (error !== null) {
             console.log('exec error: ' + error);
         }
+        process.exit();
     });
 }
   
