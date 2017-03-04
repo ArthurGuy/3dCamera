@@ -76,6 +76,8 @@ function getAbsoluteImagePath() {
 
 function sendImage(code) {
     
+    console.log("Photo capture complete, status code:" + code);
+    
     // A success should come back with exit code 0
     if (code !== 0) {
         socket.emit('photo-error', {takeId:takeId});
