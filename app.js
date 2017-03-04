@@ -84,6 +84,8 @@ function sendImage(code) {
         return;
     }
     
+    socket.emit('sending-photo', {takeId:takeId});
+    
     fs.readFile(getAbsoluteImagePath(), function(err, buffer){
         
         if (typeof buffer == 'undefined') {
