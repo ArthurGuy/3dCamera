@@ -1,5 +1,5 @@
 
-var version = '1.0';
+var version = '1.1';
 
 
 var args = process.argv.slice(2);
@@ -10,6 +10,9 @@ if (typeof args[0] != 'undefined') {
 }
 
 var spawn = require('child_process').spawn;
+var exec = require('child_process').exec;
+var childProcess;
+
 var path = require('path');
 
 var socket = require('socket.io/node_modules/socket.io-client')(socketServer);
@@ -67,6 +70,12 @@ socket.on('connect', function(){
     // Setup a regular heartbeat interval
     var heartbeatIntervalID = setInterval(heartbeat, 5000);
 
+});
+
+socket.on('update-software', function(data){
+    console.log("Updating software");
+
+    updateSoftware();
 });
 
 function heartbeat() {
@@ -127,6 +136,16 @@ function takeImage() {
     ];
     var imageProcess = spawn('raspistill', args);
     imageProcess.on('exit', sendImage);
+}
+
+function updateSoftware() {
+    childProcess = exec('git pull', function (error, stdout, stderr) {
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        if (error !== null) {
+            console.log('exec error: ' + error);
+        }
+    });
 }
   
 function guid() {
