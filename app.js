@@ -1,4 +1,7 @@
 
+var version = '1.0';
+
+
 var args = process.argv.slice(2);
 
 var socketServer = 'http://192.168.0.100:3000/';
@@ -67,7 +70,7 @@ socket.on('connect', function(){
 });
 
 function heartbeat() {
-    socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress});
+    socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress, version: version});
 }
 
 function getAbsoluteImagePath() {
