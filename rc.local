@@ -1,0 +1,9 @@
+#/etc/rc.local
+
+#!/bin/sh -e
+
+cd /home/pi/3dCamera/;
+git pull;
+npm install;
+
+exit 0
