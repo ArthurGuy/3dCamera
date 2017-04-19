@@ -132,6 +132,7 @@ function takeImage() {
         '-h', 1944,  // height
         //'-t', 100,  // how long should taking the picture take?
         '-q', 30,     // quality
+        '-awb', 'fluorescent', 
         '-o', getAbsoluteImagePath()   // path + name
     ];
     var imageProcess = spawn('raspistill', args);
