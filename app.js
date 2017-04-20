@@ -102,6 +102,13 @@ socket.on('update-id', function(data){
             }
         });
         
+        // If we have a proper name update the camera name, if its being reset switch back to a marvel character
+        if (data.newId) {
+            cameraName = data.newId;
+        } else {
+            cameraName = marvel();
+        }
+        
     }
     
 });
