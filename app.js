@@ -32,6 +32,8 @@ var takeId;
 var imagePath = '/';
 var imageName = 'output.jpg';
 
+var deviceNamePath = path.join(__dirname, "/device-name");
+
 var cameraName = marvel();
 
 var ipAddress = null;
@@ -81,9 +83,9 @@ socket.on('update-software', function(data){
 socket.on('update-id', function(data){
     
     if (data.ipAddress == ipAddress) {
-        console.log("Updating device id", data.newId);
+        console.log("Updating device id", data.newId, deviceNamePath);
         
-        fs.writeFile(path.join(__dirname, "/device-id"), data.newId, function(err) {
+        fs.writeFile(deviceNamePath, data.newId, function(err) {
             console.log("Error saving the device name");
         });
         
