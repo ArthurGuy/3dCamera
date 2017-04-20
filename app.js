@@ -49,8 +49,8 @@ socket.on('take-photo', function(data){
 });
 
 
-socket.on('connect', function(data){
-    console.log('A socket connection was made', data);
+socket.on('connect', function(){
+    console.log('A socket connection was made');
     
     // Lookup our IP address
     Object.keys(ifaces).forEach(function (ifname) {
@@ -65,7 +65,7 @@ socket.on('connect', function(data){
       });
     });
     
-    socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress});
+    socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress, version: version});
     
     // Setup a regular heartbeat interval
     var heartbeatIntervalID = setInterval(heartbeat, 1000);
@@ -80,8 +80,8 @@ socket.on('update-software', function(data){
 
 socket.on('update-id', function(data){
     
-    if (data.socketId) {
-        console.log("Updating device id", data.id);
+    if (data.ipAddress == ipAddress) {
+        console.log("Updating device id", data.newId);
     }
     
 });
