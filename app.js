@@ -1,5 +1,5 @@
 
-var version = '1.6';
+var version = '1.7';
 
 
 var args = process.argv.slice(2);
@@ -91,7 +91,7 @@ socket.on('update-software', function(data){
     updateSoftware();
 });
 
-socket.on('update-id', function(data){
+socket.on('update-name', function(data){
     
     if (data.ipAddress == ipAddress) {
         console.log("Updating device id", data.newId, deviceNamePath);
@@ -103,12 +103,11 @@ socket.on('update-id', function(data){
         });
         
         // If we have a proper name update the camera name, if its being reset switch back to a marvel character
-        if (data.newId) {
-            cameraName = data.newId;
+        if (data.newName) {
+            cameraName = data.newName;
         } else {
             cameraName = marvel();
         }
-        
     }
     
 });
