@@ -83,7 +83,7 @@ socket.on('update-id', function(data){
     if (data.ipAddress == ipAddress) {
         console.log("Updating device id", data.newId);
         
-        fs.writeFile(path.join(__dirname, "device-id"), data.newId, function(err) {
+        fs.writeFile(path.join(__dirname, "/device-id"), data.newId, function(err) {
             console.log("Error saving the device name");
         });
         
