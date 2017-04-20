@@ -1,5 +1,5 @@
 
-var version = '1.8';
+var version = '1.9';
 
 
 var args = process.argv.slice(2);
@@ -94,13 +94,7 @@ socket.on('update-software', function(data){
 socket.on('update-name', function(data){
     
     if (data.ipAddress == ipAddress) {
-        console.log("Updating device id", data.newId, deviceNamePath);
-        
-        fs.writeFile(deviceNamePath, data.newId, function(err) {
-            if (err) {
-                console.log("Error saving the device name");
-            }
-        });
+        //console.log("Updating device name", data.newId, deviceNamePath);
         
         // If we have a proper name update the camera name, if its being reset switch back to a marvel character
         if (data.newName) {
@@ -108,6 +102,12 @@ socket.on('update-name', function(data){
         } else {
             cameraName = marvel();
         }
+        
+        fs.writeFile(deviceNamePath, cameraName, function(err) {
+            if (err) {
+                console.log("Error saving the device name");
+            }
+        });
     }
     
 });
@@ -122,7 +122,7 @@ function getAbsoluteImagePath() {
 
 function sendImage(code) {
     
-    console.log("Photo capture complete, status code:" + code);
+    //console.log("Photo capture complete, status code:" + code);
     
     // A success should come back with exit code 0
     if (code !== 0) {
