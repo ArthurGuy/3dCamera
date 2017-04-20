@@ -71,7 +71,11 @@ socket.on('connect', function(){
         if (typeof buffer == 'undefined') {
             return;
         }
-        console.log('saved device name', buffer.toString());
+        var savedName = buffer.toString();
+        if (savedName) {
+            cameraName = savedName;
+            console.log('saved device name', cameraName);
+        }
     });
     
     socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress, version: version});
