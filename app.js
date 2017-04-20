@@ -49,8 +49,8 @@ socket.on('take-photo', function(data){
 });
 
 
-socket.on('connect', function(){
-    console.log('A socket connection was made');
+socket.on('connect', function(data){
+    console.log('A socket connection was made', data);
     
     // Lookup our IP address
     Object.keys(ifaces).forEach(function (ifname) {
@@ -76,6 +76,14 @@ socket.on('update-software', function(data){
     console.log("Updating software");
 
     updateSoftware();
+});
+
+socket.on('update-id', function(data){
+    
+    if (data.socketId) {
+        console.log("Updating device id", data.id);
+    }
+    
 });
 
 function heartbeat() {
