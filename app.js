@@ -67,6 +67,13 @@ socket.on('connect', function(){
       });
     });
     
+    fs.readFile(deviceNamePath, function(err, buffer){
+        if (typeof buffer == 'undefined') {
+            return;
+        }
+        console.log('saved device name', buffer.toString());
+    });
+    
     socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress, version: version});
     
     // Setup a regular heartbeat interval
@@ -86,7 +93,9 @@ socket.on('update-id', function(data){
         console.log("Updating device id", data.newId, deviceNamePath);
         
         fs.writeFile(deviceNamePath, data.newId, function(err) {
-            console.log("Error saving the device name");
+            if (err) {
+                console.log("Error saving the device name");
+            }
         });
         
     }
