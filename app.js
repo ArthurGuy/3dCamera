@@ -1,5 +1,5 @@
 
-var version = '1.10';
+var version = '1.11';
 
 
 var args = process.argv.slice(2);
@@ -23,6 +23,7 @@ var socket = require('socket.io/node_modules/socket.io-client')(socketServer);
 
 var fs = require('fs');
 
+var FormData = require('form-data');
 var request = require('request');
 
 var os = require('os');
@@ -146,16 +147,13 @@ function sendImage(code) {
         }
         
         // Post the image data via an http request
-        var formData = {
-            takeId: takeId,
-            image: buffer
-        }
-        request.post({url: httpServer + '/new-image', formData: formData}, function (err, resp, body) {
-            if (err) {
-                console.log('Error!');
-            } else {
-                console.log('Image posted: ' + body);
-            }
+        var form = new FormData();
+        form.append('takeId', takeId);
+        form.append('image', buffer);
+        
+        form.submit(httpServer + '/new-image', function(err, res) {
+          // res – response object (http.IncomingMessage)  // 
+          res.resume();
         });
         
         //console.log(err);
