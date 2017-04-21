@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "socket.io": "^1.7.1",
-    "marvel-characters": "^1.0.3"
+    "marvel-characters": "^1.0.3",
+    "request": "^2.81.0"
   }
 }
