@@ -1,5 +1,5 @@
 
-var version = '1.14';
+var version = '1.15';
 
 
 var args = process.argv.slice(2);
@@ -44,6 +44,8 @@ var deviceNamePath = path.join(__dirname, "/device-name");
 var cameraName = marvel();
 
 var ipAddress = null;
+
+var updateInProgress = false;
 
 
 socket.on('take-photo', function(data){
@@ -94,6 +96,8 @@ socket.on('connect', function(){
 
 socket.on('update-software', function(data){
     console.log("Updating software");
+    
+    updateInProgress = true;
 
     updateSoftware();
 });
@@ -120,7 +124,7 @@ socket.on('update-name', function(data){
 });
 
 function heartbeat() {
-    socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress, version: version});
+    socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress, version: version, updateInProgress: updateInProgress});
 }
 
 function getAbsoluteImagePath() {
