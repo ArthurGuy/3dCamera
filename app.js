@@ -1,5 +1,5 @@
 
-var version = '1.15';
+var version = '1.16';
 
 
 var args = process.argv.slice(2);
@@ -35,6 +35,7 @@ var marvel = require('marvel-characters')
 var lastReceiveTime;
 var photoStartTime;
 var takeId;
+var socketId;
 
 var imagePath = '/';
 var imageName = 'output.jpg';
@@ -54,6 +55,7 @@ socket.on('take-photo', function(data){
     photoStartTime  = Date.now();
     lastReceiveTime = data.time
     takeId          = data.takeId;
+    socketId        = data.socketId;
     
     takeImage();
     
@@ -152,6 +154,7 @@ function sendImage(code) {
     form.append('startTime', lastReceiveTime);
     form.append('cameraName', cameraName);
     form.append('fileName', fileName);
+    form.append('socketId', socketId);
     form.append('image', fs.createReadStream(getAbsoluteImagePath()));
 
     form.submit(httpServer + '/new-image', function(err, res) {
