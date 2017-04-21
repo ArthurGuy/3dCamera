@@ -143,6 +143,7 @@ function sendImage(code) {
     // Post the image data via an http request
     var form = new FormData();
     form.append('takeId', takeId);
+    form.append('startTime', lastReceiveTime);
     form.append('image', fs.createReadStream(getAbsoluteImagePath()));
 
     form.submit(httpServer + '/new-image', function(err, res) {
