@@ -1,12 +1,16 @@
 
-var version = '1.9';
+var version = '1.10';
 
 
 var args = process.argv.slice(2);
 
+var httpServer = 'http://192.168.0.100:8080';
 var socketServer = 'http://192.168.0.100:3000/';
 if (typeof args[0] != 'undefined') {		
     socketServer = 'http://' + args[0];		
+}
+if (typeof args[1] != 'undefined') {		
+    httpServer = 'http://' + args[1];		
 }
 
 var spawn = require('child_process').spawn;
@@ -18,6 +22,8 @@ var path = require('path');
 var socket = require('socket.io/node_modules/socket.io-client')(socketServer);
 
 var fs = require('fs');
+
+var request = require('request');
 
 var os = require('os');
 var ifaces = os.networkInterfaces();
@@ -138,6 +144,20 @@ function sendImage(code) {
             socket.emit('photo-error', {takeId:takeId});
             return;
         }
+        
+        // Post the image data via an http request
+        var formData = {
+            takeId: takeId,
+            image: buffer
+        }
+        request.post({url: httpServer + '/new-image', formData: formData}, function (err, resp, body) {
+            if (err) {
+                console.log('Error!');
+            } else {
+                console.log('Image posted: ' + body);
+            }
+        });
+        
         //console.log(err);
         //console.log(buffer);
         //io.sockets.emit('live-stream', buffer.toString('base64'));
