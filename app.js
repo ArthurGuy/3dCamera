@@ -194,7 +194,7 @@ function takeImage() {
 }
 
 function updateSoftware() {
-    childProcess = exec('cd ' + __dirname + '; git pull', function (error, stdout, stderr) {
+    childProcess = exec('cd ' + __dirname + '; git pull; npm install', function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
         if (error !== null) {
