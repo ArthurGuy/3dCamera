@@ -1,5 +1,5 @@
 
-var version = '1.17';
+var version = '1.18';
 
 
 var args = process.argv.slice(2);
@@ -143,36 +143,12 @@ function sendImage(code) {
     
     socket.emit('sending-photo', {takeId:takeId});
     
-    var fileName = guid() + '.jpg';
-    
-    
-    // Post the image data via an http request
-    var form = new FormData();
-    form.append('takeId', takeId);
-    form.append('startTime', lastReceiveTime);
-    form.append('cameraName', cameraName);
-    form.append('fileName', fileName);
-    form.append('image', fs.createReadStream(getAbsoluteImagePath()));
-
-    form.submit(httpServer + '/new-image', function(err, res) {
-        if (err) {
-            console.log("Error uploading the image", err)
-        } else {
-            console.log("Image uploaded");
-        }
-        res.resume();
-    });
-    
     fs.readFile(getAbsoluteImagePath(), function(err, buffer){
-        
         if (typeof buffer == 'undefined') {
             socket.emit('photo-error', {takeId:takeId});
             return;
         }
         
-        //console.log(err);
-        //console.log(buffer);
-        //io.sockets.emit('live-stream', buffer.toString('base64'));
         var totalDelay = Date.now() - lastReceiveTime;
         var imageDelay = Date.now() - photoStartTime;
         socket.emit('new-photo', {
@@ -185,11 +161,30 @@ function sendImage(code) {
             imageDelay: imageDelay,
             fileName: fileName
         });
+    });
+    
+    var fileName = guid() + '.jpg';
+    
+    // Post the image data via an http request
+    var form = new FormData();
+    form.append('takeId', takeId);
+    form.append('startTime', lastReceiveTime);
+    form.append('cameraName', cameraName);
+    form.append('fileName', fileName);
+    form.append('image', fs.createReadStream(getAbsoluteImagePath()));
+
+    form.submit(httpServer + '/new-image', function(err, res) {
+        if (err) {
+            socket.emit('photo-error', {takeId:takeId});
+        } else {
+            console.log("Image uploaded");
+        }
         
-        // Remove the image
         fs.unlink(getAbsoluteImagePath(), function () {
             // file deleted
         });
+        
+        res.resume();
     });
 }
 
