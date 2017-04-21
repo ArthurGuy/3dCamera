@@ -1,5 +1,5 @@
 
-var version = '1.11';
+var version = '1.12';
 
 
 var args = process.argv.slice(2);
@@ -139,22 +139,27 @@ function sendImage(code) {
     
     socket.emit('sending-photo', {takeId:takeId});
     
+    
+    // Post the image data via an http request
+    var form = new FormData();
+    form.append('takeId', takeId);
+    form.append('image', fs.createReadStream(getAbsoluteImagePath()));
+
+    form.submit(httpServer + '/new-image', function(err, res) {
+        if (err) {
+            console.log("Error uploading the image", err)
+        } else {
+            console.log("Image uploaded");
+        }
+        res.resume();
+    });
+    
     fs.readFile(getAbsoluteImagePath(), function(err, buffer){
         
         if (typeof buffer == 'undefined') {
             socket.emit('photo-error', {takeId:takeId});
             return;
         }
-        
-        // Post the image data via an http request
-        var form = new FormData();
-        form.append('takeId', takeId);
-        form.append('image', buffer);
-        
-        form.submit(httpServer + '/new-image', function(err, res) {
-          // res – response object (http.IncomingMessage)  // 
-          res.resume();
-        });
         
         //console.log(err);
         //console.log(buffer);
