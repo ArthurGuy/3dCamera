@@ -1,5 +1,5 @@
 
-var version = '1.12';
+var version = '1.13';
 
 
 var args = process.argv.slice(2);
@@ -144,6 +144,7 @@ function sendImage(code) {
     var form = new FormData();
     form.append('takeId', takeId);
     form.append('startTime', lastReceiveTime);
+    form.append('cameraName', cameraName);
     form.append('image', fs.createReadStream(getAbsoluteImagePath()));
 
     form.submit(httpServer + '/new-image', function(err, res) {
@@ -168,7 +169,7 @@ function sendImage(code) {
         var totalDelay = Date.now() - lastReceiveTime;
         var imageDelay = Date.now() - photoStartTime;
         socket.emit('new-photo', {
-            data: buffer.toString('base64'), 
+            //data: buffer.toString('base64'), 
             takeId:takeId, 
             startTime:lastReceiveTime, 
             time:Date.now(), 
@@ -186,8 +187,8 @@ function sendImage(code) {
 
 function takeImage() {
     var args = [
-        '-w', 2592,   // width
-        '-h', 1944,  // height
+        //'-w', 2592,   // width
+        //'-h', 1944,  // height
         //'-t', 100,  // how long should taking the picture take?
         '-q', 30,     // quality
         '-awb', 'fluorescent', 
