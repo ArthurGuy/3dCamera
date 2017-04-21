@@ -1,5 +1,5 @@
 
-var version = '1.13';
+var version = '1.14';
 
 
 var args = process.argv.slice(2);
@@ -139,12 +139,15 @@ function sendImage(code) {
     
     socket.emit('sending-photo', {takeId:takeId});
     
+    var fileName = guid() + '.jpg';
+    
     
     // Post the image data via an http request
     var form = new FormData();
     form.append('takeId', takeId);
     form.append('startTime', lastReceiveTime);
     form.append('cameraName', cameraName);
+    form.append('fileName', fileName);
     form.append('image', fs.createReadStream(getAbsoluteImagePath()));
 
     form.submit(httpServer + '/new-image', function(err, res) {
@@ -175,7 +178,8 @@ function sendImage(code) {
             time:Date.now(), 
             photoStartTime:photoStartTime,
             totalDelay: totalDelay,
-            imageDelay: imageDelay
+            imageDelay: imageDelay,
+            fileName: fileName
         });
         
         // Remove the image
