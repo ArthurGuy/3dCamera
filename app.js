@@ -1,11 +1,11 @@
 
-var version = '1.18';
+var version = '1.19';
 
 
 var args = process.argv.slice(2);
 
-var httpServer = 'http://192.168.0.100:8080';
-var socketServer = 'http://192.168.0.100:3000/';
+var httpServer = 'http://192.168.10.100:8080';
+var socketServer = 'http://192.168.10.100:3000/';
 if (typeof args[0] != 'undefined') {		
     socketServer = 'http://' + args[0];		
 }
