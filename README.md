@@ -24,8 +24,6 @@ sudo npm install -g npm
 ```
 
 
-#### Bugs 
+#### Needed software
 
-`Error: Cannot find module 'socket.io/node_modules/socket.io-client'`
-
-Try installing socket io globally `npm install -g socket.io`
+sudo apt-get install git supervisor
