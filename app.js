@@ -1,5 +1,5 @@
 
-var version = '1.19';
+var version = '1.20';
 
 
 var args = process.argv.slice(2);
@@ -19,7 +19,7 @@ var childProcess;
 
 var path = require('path');
 
-var socket = require('socket.io/node_modules/socket.io-client')(socketServer);
+var socket = require('socket.io-client')(socketServer);
 
 var fs = require('fs');
 
@@ -48,17 +48,7 @@ var ipAddress = null;
 var updateInProgress = false;
 
 
-socket.on('take-photo', function(data){
-    console.log("Taking a photo");
-    
-    photoStartTime  = Date.now();
-    lastReceiveTime = data.time
-    takeId          = data.takeId;
-    
-    takeImage();
-    
-});
-
+console.log("Starting");
 
 socket.on('connect', function(){
     console.log('A socket connection was made');
@@ -92,6 +82,16 @@ socket.on('connect', function(){
     // Setup a regular heartbeat interval
     var heartbeatIntervalID = setInterval(heartbeat, 1000);
 
+});
+
+socket.on('take-photo', function(data){
+    console.log("Taking a photo");
+    
+    photoStartTime  = Date.now();
+    lastReceiveTime = data.time
+    takeId          = data.takeId;
+    
+    takeImage();
 });
 
 socket.on('update-software', function(data){
