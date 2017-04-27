@@ -18,6 +18,9 @@ sudo reboot
 cd ~
 rm node-v7.9.0-linux-armv6l.tar.gz.gz
 rm -r node-v7.9.0-linux-armv6l.tar.gz
+
+# Update NPM
+sudo npm install -g npm
 ```
 
 
