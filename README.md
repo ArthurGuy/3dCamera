@@ -27,3 +27,13 @@ sudo npm install -g npm
 #### Needed software
 
 sudo apt-get install git supervisor
+
+
+#### Supervisor
+```
+sudo supervisorctl reread
+
+sudo supervisorctl update
+
+sudo service supervisor restart
+```
