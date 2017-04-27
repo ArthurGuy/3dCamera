@@ -5,6 +5,7 @@
     "socket.io": "^1.7.1",
     "marvel-characters": "^1.0.3",
     "request": "^2.81.0",
-    "form-data": "^2.1.4"
+    "form-data": "^2.1.4",
+    "socket.io-client": "^1.7.3"
   }
 }
