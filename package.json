@@ -6,6 +6,10 @@
     "marvel-characters": "^1.0.3",
     "request": "^2.81.0",
     "form-data": "^2.1.4",
-    "socket.io-client": "^1.7.3"
+    "socket.io-client": "^1.7.3",
+    "husky": "^0.13.3"
+  },
+  "scripts": {
+    "postmerge": "npm install"
   }
 }
