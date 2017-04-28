@@ -1,6 +1,5 @@
 
-var version = '1.20';
-
+var version = '1.21';
 
 var args = process.argv.slice(2);
 
@@ -14,7 +13,7 @@ if (typeof args[1] != 'undefined') {
 }
 
 var spawn = require('child_process').spawn;
-var exec = require('child_process').exec;
+var exec  = require('child_process').exec;
 var childProcess;
 
 var path = require('path');
@@ -24,9 +23,9 @@ var socket = require('socket.io-client')(socketServer);
 var fs = require('fs');
 
 var FormData = require('form-data');
-var request = require('request');
+var request  = require('request');
 
-var os = require('os');
+var os     = require('os');
 var ifaces = os.networkInterfaces();
 
 // Random name generator
@@ -35,23 +34,19 @@ var marvel = require('marvel-characters')
 var lastReceiveTime;
 var photoStartTime;
 var takeId;
+var updateInProgress = false;
 
 var imagePath = '/';
 var imageName = 'output.jpg';
 
 var deviceNamePath = path.join(__dirname, "/device-name");
 
-var cameraName = marvel();
-
-var ipAddress = null;
-
-var updateInProgress = false;
+var cameraName = null;
+var ipAddress  = null;
 
 
-console.log("Starting");
-
-socket.on('connect', function(){
-    console.log('A socket connection was made');
+function boot() {
+    console.log("Starting");
     
     // Lookup our IP address
     Object.keys(ifaces).forEach(function (ifname) {
@@ -66,6 +61,8 @@ socket.on('connect', function(){
       });
     });
     
+    // Set the device name, either a default or from storage
+    cameraName = marvel();
     fs.readFile(deviceNamePath, function(err, buffer){
         if (typeof buffer == 'undefined') {
             return;
@@ -76,12 +73,16 @@ socket.on('connect', function(){
             console.log('saved device name', cameraName);
         }
     });
+       
+}
+
+socket.on('connect', function(){
+    console.log('A socket connection was made');
     
     socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress, version: version});
     
     // Setup a regular heartbeat interval
     var heartbeatIntervalID = setInterval(heartbeat, 1000);
-
 });
 
 socket.on('take-photo', function(data){
@@ -104,23 +105,24 @@ socket.on('update-software', function(data){
 
 socket.on('update-name', function(data){
     
-    if (data.ipAddress == ipAddress) {
-        //console.log("Updating device name", data.newId, deviceNamePath);
-        
-        // If we have a proper name update the camera name, if its being reset switch back to a marvel character
-        if (data.newName) {
-            cameraName = data.newName;
-        } else {
-            cameraName = marvel();
-        }
-        
-        fs.writeFile(deviceNamePath, cameraName, function(err) {
-            if (err) {
-                console.log("Error saving the device name");
-            }
-        });
+    // Name updates go to all devices so only respond if its comes with the devices ip address
+    if (data.ipAddress != ipAddress) {
+        return;
     }
-    
+        
+    // If we have a proper name update the camera name, if its being reset switch back to a marvel character
+    if (data.newName) {
+        cameraName = data.newName;
+    } else {
+        cameraName = marvel();
+    }
+
+    fs.writeFile(deviceNamePath, cameraName, function(err) {
+        if (err) {
+            console.log("Error saving the device name");
+        }
+    });
+
 });
 
 function heartbeat() {
@@ -201,6 +203,8 @@ function takeImage() {
     imageProcess.on('exit', sendImage);
 }
 
+// To update the software we run git pull and npm install and then forcibily kill this process
+// Supervisor will then restart it
 function updateSoftware() {
     childProcess = exec('cd ' + __dirname + '; git pull; npm install', function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
@@ -221,3 +225,6 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
+
+// Run the boot sequence
+boot();
