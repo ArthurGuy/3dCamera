@@ -1,5 +1,5 @@
 
-var version = '1.24';
+var version = '1.25';
 
 var args = process.argv.slice(2);
 
@@ -209,7 +209,7 @@ function takeImage() {
 // To update the software we run git pull and npm install and then forcibily kill this process
 // Supervisor will then restart it
 function updateSoftware() {
-    childProcess = exec('cd ' + __dirname + '; git pull; npm install', function (error, stdout, stderr) {
+    childProcess = exec('cd ' + __dirname + '; git pull', function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
         if (error !== null) {
