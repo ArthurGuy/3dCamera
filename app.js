@@ -1,5 +1,5 @@
 
-var version = '1.22';
+var version = '1.23';
 
 var args = process.argv.slice(2);
 
@@ -200,6 +200,9 @@ function takeImage() {
         '-o', getAbsoluteImagePath()   // path + name
     ];
     var imageProcess = spawn('raspistill', args);
+    // The image should take about 5 seconds, if its going after 10 kill it!
+    setTimeout(function(){ imageProcess.kill()}, 10000);
+    
     imageProcess.on('exit', sendImage);
 }
 
