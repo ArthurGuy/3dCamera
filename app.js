@@ -1,5 +1,5 @@
 
-var version = '1.21';
+var version = '1.22';
 
 var args = process.argv.slice(2);
 
@@ -195,7 +195,7 @@ function takeImage() {
         //'-w', 2592,   // width
         //'-h', 1944,  // height
         //'-t', 100,  // how long should taking the picture take?
-        //'-q', 30,     // quality
+        '-q', 90,     // quality
         '-awb', 'fluorescent', 
         '-o', getAbsoluteImagePath()   // path + name
     ];
