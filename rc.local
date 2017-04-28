@@ -2,8 +2,13 @@
 
 #!/bin/sh -e
 
-cd /home/pi/3dCamera/;
-git pull;
-npm install;
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP"
+
+  cd /home/pi/3dCamera/;
+  git pull;
+
+fi
 
 exit 0
