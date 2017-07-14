@@ -1,5 +1,5 @@
 
-var version = '1.27';
+var version = '1.28';
 
 var args = process.argv.slice(2);
 
@@ -42,10 +42,13 @@ var deviceNamePath = path.join(__dirname, "/device-name");
 
 var cameraName = null;
 var ipAddress  = null;
+var hostName   = null;
 
 
 function boot() {
     console.log("Starting");
+    
+    hostName = os.hostname();
     
     // Lookup our IP address
     lookupIp();
@@ -119,7 +122,7 @@ function heartbeat() {
     if (ipAddress == null) {
         lookupIp();
     }
-    socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress, version: version, updateInProgress: updateInProgress});
+    socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress, hostName: hostName, version: version, updateInProgress: updateInProgress});
 }
 
 function getAbsoluteImagePath() {
