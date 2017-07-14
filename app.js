@@ -1,5 +1,5 @@
 
-var version = '1.25';
+var version = '1.26';
 
 var args = process.argv.slice(2);
 
@@ -26,7 +26,6 @@ var FormData = require('form-data');
 var request  = require('request');
 
 var os     = require('os');
-var ifaces = os.networkInterfaces();
 
 // Random name generator
 var marvel = require('marvel-characters')
@@ -49,17 +48,7 @@ function boot() {
     console.log("Starting");
     
     // Lookup our IP address
-    Object.keys(ifaces).forEach(function (ifname) {
-      var alias = 0;
-
-      ifaces[ifname].forEach(function (iface) {
-        if ('IPv4' !== iface.family || iface.internal !== false) {
-          // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
-          return;
-        }
-        ipAddress = iface.address;
-      });
-    });
+    lookupIp();
     
     // Set the device name, either a default or from storage
     cameraName = marvel();
@@ -126,11 +115,29 @@ socket.on('update-name', function(data){
 });
 
 function heartbeat() {
+    if (ipAddress == null) {
+        lookupIp();
+    }
     socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress, version: version, updateInProgress: updateInProgress});
 }
 
 function getAbsoluteImagePath() {
     return path.join(__dirname, imagePath, imageName);
+}
+
+function lookupIp() {
+    var ifaces = os.networkInterfaces();
+    Object.keys(ifaces).forEach(function (ifname) {
+      var alias = 0;
+
+      ifaces[ifname].forEach(function (iface) {
+        if ('IPv4' !== iface.family || iface.internal !== false) {
+          // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+          return;
+        }
+        ipAddress = iface.address;
+      });
+    });
 }
 
 function sendImage(code) {
