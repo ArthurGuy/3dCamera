@@ -1,5 +1,5 @@
 
-var version = '1.26';
+var version = '1.27';
 
 var args = process.argv.slice(2);
 
@@ -62,7 +62,8 @@ function boot() {
             console.log('saved device name', cameraName);
         }
     });
-       
+    
+    console.log("Startup complete");
 }
 
 socket.on('connect', function(){
