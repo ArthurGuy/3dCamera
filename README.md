@@ -54,12 +54,23 @@ Starting the software and keeping it running is the job of supervisor, this prog
 sudo apt-get install git supervisor
 ```
 
+Supervisor can then be setup with the 3d scanner application by copying the supplied config file into the final location using the following command
+```bash
+cp /home/pi/3dCamera/camera.conf /etc/supervisor/conf.d/camera.conf
+```
+You can now tell supervisor to identify the new config file and start running.
 
-#### Supervisor
 ```bash
 sudo supervisorctl reread
-
 sudo supervisorctl update
-
 sudo service supervisor restart
+```
+Now whenever the system starts up supervisor will start the camera application which will connect to the server software automatically.
+
+
+## Optional extra
+
+The software can be updated using an update command built into the web ui, an alternative is to force an update whenever the raspbery pi boots up. If you wish to do this you should enter the following command, this will replace the default startup script with one that will carry out an update.
+```bash
+cp /home/pi/3dCamera/rc.local /etc/rc.local
 ```
