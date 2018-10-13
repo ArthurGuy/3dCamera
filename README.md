@@ -67,7 +67,7 @@ sudo apt-get install supervisor
 
 Supervisor can then be setup with the 3d scanner application by copying the supplied config file into the final location using the following command
 ```bash
-cp /home/pi/3dCamera/camera.conf /etc/supervisor/conf.d/camera.conf
+sudo cp /home/pi/3dCamera/camera.conf /etc/supervisor/conf.d/camera.conf
 ```
 You can now tell supervisor to identify the new config file and start running.
 
