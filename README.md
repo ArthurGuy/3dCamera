@@ -83,5 +83,5 @@ Now whenever the system starts up supervisor will start the camera application w
 
 The software can be updated using an update command built into the web ui, an alternative is to force an update whenever the raspbery pi boots up. If you wish to do this you should enter the following command, this will replace the default startup script with one that will carry out an update.
 ```bash
-cp /home/pi/3dCamera/rc.local /etc/rc.local
+sudo cp /home/pi/3dCamera/rc.local /etc/rc.local
 ```
