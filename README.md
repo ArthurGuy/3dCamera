@@ -17,15 +17,25 @@ wget https://nodejs.org/dist/v7.9.0/node-v7.9.0-linux-armv6l.tar.gz
 tar -xvf node-v7.9.0-linux-armv6l.tar.gz
 cd node-v7.9.0-linux-armv6l/
 sudo cp -R * /usr/local/
-sudo reboot
+
+# Install NPM
+cd ~
+wget https://nodejs.org/dist/v8.12.0/node-v8.12.0-linux-armv6l.tar.xz
+tar xf node-v8.12.0-linux-armv6l.tar.xz
+cd node-v8.12.0-linux-armv6l/
+sudo cp -R * /usr/local/
 
 # Tidy up
 cd ~
 rm node-v7.9.0-linux-armv6l.tar.gz.gz
 rm -r node-v7.9.0-linux-armv6l.tar.gz
+sudo reboot
 
 # Update NPM
 sudo npm install -g npm
+
+# Install Git
+sudo apt-get install git
 ```
 
 Once node has been installed you can download the files for the client software.
@@ -51,7 +61,7 @@ node app.js
 Starting the software and keeping it running is the job of supervisor, this program will make sure the camera software allways runs, this can be installed using the following command.
 
 ```bash
-sudo apt-get install git supervisor
+sudo apt-get install supervisor
 ```
 
 Supervisor can then be setup with the 3d scanner application by copying the supplied config file into the final location using the following command
