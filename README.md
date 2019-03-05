@@ -6,42 +6,53 @@ This software is designed to run on the raspbery pi and use the raspbery pi came
 ## Getting started
 The first thing you need to do is setup a raspbery pi, ideally with a lite version of Raspbian. Once this is setup you should ssh into it. How to do this is outside of the scope of this setup guide.
 
-The first thing you need to do once you have logged into the pi is to enable the camera using the setup utility.
-
-The software needs nodejs to run, the raspbery pi will come with node installed but its mostlikly an old out of date version, the following commands can be used to replace it with something more modern. There are many ways to upgrade node, this is just one.
-
-#### Upgrading to node v7
+Once logged into the pi, enable the camera using the setup utility.
 ```bash
+raspi-config
+```
+
+Once the camera is enabled, use the following commands to install all packages required for the 3DCamera software to run.
+
+#### Installing Required Packages
+```bash
+# Install Node
 cd ~
-wget https://nodejs.org/dist/v7.9.0/node-v7.9.0-linux-armv6l.tar.gz
-tar -xvf node-v7.9.0-linux-armv6l.tar.gz
-cd node-v7.9.0-linux-armv6l/
+sudo apt-get install nodejs
+
+# Install NPM
+cd ~
+wget https://nodejs.org/dist/v8.12.0/node-v8.12.0-linux-armv6l.tar.xz
+tar xf node-v8.12.0-linux-armv6l.tar.xz
+cd node-v8.12.0-linux-armv6l/
 sudo cp -R * /usr/local/
-sudo reboot
 
 # Tidy up
 cd ~
 rm node-v7.9.0-linux-armv6l.tar.gz.gz
-rm -r node-v7.9.0-linux-armv6l.tar.gz
+rm -r node-v7.9.0-linux-armv6l
+sudo reboot
 
 # Update NPM
 sudo npm install -g npm
+
+# Install Git
+sudo apt-get install git
 ```
 
-Once node has been installed you can download the files for the client software.
+Once node, npm and git have been installed the 3dCamera client software can be downloaded.
 
 ```bash
 cd ~
 git clone https://github.com/ArthurGuy/3dCamera.git
 ```
 
-The software can then be installed using the following commands
+The 3dCamera client software can then be installed using the following commands:
 ```bash
 cd 3dCamera
 npm install
 ```
 
-Once this is complete you can test the software by running it using the following command
+Once this is complete, test the software by running it using the following command:
 ```bash
 node app.js
 ```
@@ -51,12 +62,12 @@ node app.js
 Starting the software and keeping it running is the job of supervisor, this program will make sure the camera software allways runs, this can be installed using the following command.
 
 ```bash
-sudo apt-get install git supervisor
+sudo apt-get install supervisor
 ```
 
 Supervisor can then be setup with the 3d scanner application by copying the supplied config file into the final location using the following command
 ```bash
-cp /home/pi/3dCamera/camera.conf /etc/supervisor/conf.d/camera.conf
+sudo cp /home/pi/3dCamera/camera.conf /etc/supervisor/conf.d/camera.conf
 ```
 You can now tell supervisor to identify the new config file and start running.
 
@@ -72,5 +83,5 @@ Now whenever the system starts up supervisor will start the camera application w
 
 The software can be updated using an update command built into the web ui, an alternative is to force an update whenever the raspbery pi boots up. If you wish to do this you should enter the following command, this will replace the default startup script with one that will carry out an update.
 ```bash
-cp /home/pi/3dCamera/rc.local /etc/rc.local
+sudo cp /home/pi/3dCamera/rc.local /etc/rc.local
 ```
