@@ -1,5 +1,5 @@
 
-var version = '1.28';
+var version = '1.29';
 
 var args = process.argv.slice(2);
 
@@ -88,6 +88,16 @@ socket.on('take-photo', function(data){
     takeImage();
 });
 
+socket.on('take-photo-webcam', function(data){
+    console.log("Taking a photo - WebCam");
+    
+    photoStartTime  = Date.now();
+    lastReceiveTime = data.time
+    takeId          = data.takeId;
+    
+    takeImage_WebCam();
+});
+
 socket.on('update-software', function(data){
     console.log("Updating software");
     
@@ -125,8 +135,8 @@ function heartbeat() {
     socket.emit('camera-online', {name: cameraName, ipAddress: ipAddress, hostName: hostName, version: version, updateInProgress: updateInProgress});
 }
 
-function getAbsoluteImagePath() {
-    return path.join(__dirname, imagePath, imageName);
+function getAbsoluteImagePath(prefix='') {
+    return path.join(__dirname, imagePath, prefix + imageName);
 }
 
 function lookupIp() {
@@ -206,11 +216,28 @@ function takeImage() {
         //'-w', 2592,   // width
         //'-h', 1944,  // height
         //'-t', 100,  // how long should taking the picture take?
-        '-q', 90,     // quality
+        '-q', 95,     // quality
         '-awb', 'fluorescent', 
         '-o', getAbsoluteImagePath()   // path + name
     ];
     var imageProcess = spawn('raspistill', args);
+    // The image should take about 5 seconds, if its going after 10 kill it!
+    setTimeout(function(){ imageProcess.kill()}, 10000);
+    
+    imageProcess.on('exit', sendImage);
+}
+
+function takeImage_WebCam() {
+    var args = [
+        //'-w', 2592,   // width
+        //'-h', 1944,  // height
+        //'-t', 100,  // how long should taking the picture take?
+        '-r', '1920x1080',     // quality
+        '--no-banner',
+        getAbsoluteImagePath()   // path + name
+    ];
+    
+    var imageProcess = spawn('fswebcam', args);
     // The image should take about 5 seconds, if its going after 10 kill it!
     setTimeout(function(){ imageProcess.kill()}, 10000);
     
