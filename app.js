@@ -205,9 +205,10 @@ function takeImage() {
     var args = [
         //'-w', 2592,   // width
         //'-h', 1944,  // height
-        //'-t', 100,  // how long should taking the picture take?
-        '-q', 90,     // quality
-        '-awb', 'fluorescent', 
+        '-t', 250,  // how long should taking the picture take?
+        '-q', 100,     // quality
+        '-ISO', 100, //ISO
+        //'-awb', 'fluorescent', 
         '-o', getAbsoluteImagePath()   // path + name
     ];
     var imageProcess = spawn('raspistill', args);
@@ -220,7 +221,15 @@ function takeImage() {
 // To update the software we run git pull and npm install and then forcibily kill this process
 // Supervisor will then restart it
 function updateSoftware() {
-    childProcess = exec('cd ' + __dirname + '; git pull', function (error, stdout, stderr) {
+    childProcess = exec('cd ' + __dirname + ';sudo git remote set-url origin git@github.com:dffxPipeline/3dCamera.git', function (error, stdout, stderr) {
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        if (error !== null) {
+            console.log('exec error: ' + error);
+        }
+        process.exit();
+    });
+    childProcess = exec('cd ' + __dirname + ';sudo git pull origin master', function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
         if (error !== null) {
